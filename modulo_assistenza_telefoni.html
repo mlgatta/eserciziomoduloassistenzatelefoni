@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Esercizio 2x02 JavaScript – Assistenza telefoni</title>
+	<style>
+		body {
+			font-family: sans-serif;
+			font-size: 14px;
+		}
+		
+		table {
+			width: 800px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		
+		
+		td {
+			border: 1px solid;
+			padding: 10px;
+			
+		}
+		
+		.sx { /* formazione celle della colonna sinistra */
+			width: 35%;
+		}
+
+		.dx { /* formazione celle della colonna destra */
+			width: 65%;
+		}
+
+		.casella { /* formattazione dei componenti del form */
+			width: 500px;
+			height: 20px;
+		}
+		
+		textarea {
+			resize: none; /* impedisco la deformazione della textarea */
+		}
+		
+		.pulsante {
+			padding: 10px 25px; /* 10px sopra/sotto, 25px destra/sinistra */
+			font-size: 18px;
+			cursor: pointer;
+			display: block;
+			margin: 12px auto 0; /* 12px sopra, auto destra/sinistra, 0 sotto */
+		}
+		
+		
+	</style>
+</head>
+<body>
+	<form method="post" enctype="multipart/form-data" name="modulo1" id="form"> 
+		<table>
+			<thead>
+				<tr>
+					<th colspan="2" class="intestazione">
+						Ri-Generation - Via Pavoncelli 118, Bari<br />
+						Modulo assistenza telefoni
+					</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td class="sx">Nome</td>
+					<td class="dx"><input class="casella" type="text" name="nome" id="nome" /></td>
+				</tr>
+				<tr>
+					<td class="sx">Cognome</td>
+					<td class="dx"><input class="casella" type="text" name="cognome" id="cognome" /></td>
+				</tr>
+				<tr>
+					<td class="sx">Codice Fiscale</td>
+					<td class="dx"><input class="casella" type="text" name="codiceFiscale" id="codiceFiscale" /></td>
+				</tr>
+				<tr>
+					<td class="sx">Città</td>
+					<td class="dx"><input class="casella" type="text" name="città" id="città" /></td>
+				</tr>
+				<tr>
+					<td class="sx">Gestore telefonico</td>
+					<td class="dx">
+						<input type="radio" name="operatore" value="tim" id="tim" /> TIM<br />
+						<input type="radio" name="operatore" value="vodafone" id="vodafone" /> VODAFONE<br />
+						<input type="radio" name="operatore" value="windtre" id="windtre" /> WIND-TRE<br />
+						<input type="radio" name="operatore" value="altro" id="altro" /> ALTRO: <input type="text" name="altroOperatore" />
+					</td>
+				</tr>
+				<tr>
+					<td class="sx">Numero di telefono dispositivo</td>
+					<td class="dx"><input class="casella" type="text" name="tel" id="tel" /></td>
+				</tr>
+				<tr>
+					<td class="sx">Marca dispositivo</td>
+					<td class="dx"><input class="casella" type="text" name="marca" id="marca" /></td>
+				</tr>
+				<tr>
+					<td class="sx">Modello dispositivo</td>
+					<td class="dx"><input class="casella" type="text" name="modello" id="modello" /></td>
+				</tr>
+				<tr>
+					<td class="sx">Breve descrizione del problema</td>
+					<td class="dx"><textarea class="casella" name="problema" id="problema" rows="5" cols="40"></textarea></td>
+				</tr>
+				<tr>
+					<td class="sx">Recapito di contatto (se diverso dal numero del dispositivo in riparazione)</td>
+					<td class="dx"><input class="casella" type="text" name="altrotel" id="altrotel" /></td>
+				</tr>
+			</tbody>
+		</table>
+		<button type="button" class="pulsante" id="stamparicevuta">Stampa ricevuta</button>
+	</form>
+	
+	<div id="risultato" hidden>
+		<form id="form2" name="modulo2">
+		<table>
+			<thead>
+				<tr>
+					<th colspan="2" class="intestazione">
+						Ri-Generation - Via Pavoncelli 118, Bari<br />
+						Ricevuta di consegna
+					</th>
+				</tr>
+		</thead>
+			<tbody>
+				<tr>
+					<td class="sx">Nome</td>
+					<td class="dx"><input name="uno" type="text" class="risultato" readonly /></td>
+				</tr>
+				<tr>
+					<td class="sx">Cognome</td>
+					<td class="dx"><input name="due" type="text" class="risultato" readonly /></td>
+				</tr>
+				<tr>
+					<td class="sx">Codice Fiscale</td>
+					<td class="dx"><input name="tre" type="text" class="risultato" readonly /></td>
+				</tr>
+				<tr>
+					<td class="sx">Città</td>
+					<td class="dx"><input name="quattro" type="text" class="risultato" readonly /></td>
+				</tr>
+				<tr>
+					<td class="sx">Gestore telefonico</td>
+					<td class="dx"><input name="cinque" type="text" class="risultato" readonly /></td>
+				</tr>
+				<tr>
+					<td class="sx">Numero di telefono dispositivo</td>
+					<td class="dx"><input name="sei" type="text" class="risultato" readonly /></td>
+				</tr>
+				<tr>
+					<td class="sx">Marca dispositivo</td>
+					<td class="dx"><input name="sette" type="text" class="risultato" readonly /></td>
+				</tr>
+				<tr>
+					<td class="sx">Modello dispositivo</td>
+					<td class="dx"><input name="otto" type="text" class="risultato" readonly /></td>
+				</tr>
+				<tr>
+					<td class="sx">Breve descrizione del problema</td>
+					<td class="dx"><textarea name="nove" class="risultato" rows="5" cols="40" readonly></textarea></td>
+				</tr>
+				<tr>
+					<td class="sx">Recapito di contatto (se diverso dal numero del dispositivo in riparazione)</td>
+					<td class="dx"><input name="dieci" type="text" class="risultato" readonly /></td>
+				</tr>
+			</tbody>
+		</table>
+		<button type="button" class="pulsante" id="tornaform">Torna al Form</button>
+	</form>
+	</div>
+	
+	
+	<script>
+		
+		const form1 = document.getElementById("form");
+		const divRisultato = document.getElementById("risultato");
+		
+		document.getElementById("stamparicevuta").addEventListener("click", function() { // imposto gli eventi che succedono al tasto click sul pulsante "stampa ricevuta"
+			
+			// assegno e stampo i dati inseriti nel form, nella ricevuta di consegna
+			document.modulo2.uno.value = document.modulo1.nome.value;
+			document.modulo2.due.value = document.modulo1.cognome.value;
+			document.modulo2.tre.value = document.modulo1.codiceFiscale.value;
+			document.modulo2.quattro.value = document.modulo1.città.value;
+			document.modulo2.sette.value = document.modulo1.marca.value;
+			document.modulo2.otto.value = document.modulo1.modello.value;
+			document.modulo2.nove.value = document.modulo1.problema.value;
+			
+			// Gestione operatore: se è selezionato "altro", faccio inserire il testo scritto accanto
+			let operator = document.modulo1.operatore.value;
+			if (operator === "altro") {
+				operator = document.modulo1.altroOperatore.value;
+			}
+			
+			document.modulo2.cinque.value = operator
+			
+			// se altrotel è vuoto, faccio reinserire "numero di telefono dispositivo"
+			const numDispositivo = document.modulo1.tel.value;
+			document.modulo2.sei.value = numDispositivo
+			
+			const altroTel = document.modulo1.altrotel.value.trim();
+			
+			if (altroTel === "") {
+				document.modulo2.dieci.value = numDispositivo;
+			} else {
+				document.modulo2.dieci.value = altroTel;
+			}
+			
+			// nascondo il form e mostro la ricevuta
+			form1.hidden = true;
+			divRisultato.hidden = false;
+		});
+		
+		document.getElementById("tornaform").addEventListener("click", function() {
+			form1.reset();
+			divRisultato.hidden = true;
+			form1.hidden = false;
+		});
+	</script>
+</body>
+</html>
