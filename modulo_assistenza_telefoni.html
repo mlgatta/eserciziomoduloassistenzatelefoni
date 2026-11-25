@@ -84,7 +84,7 @@
 						<input type="radio" name="operatore" value="Tim" id="tim" /> TIM<br />
 						<input type="radio" name="operatore" value="Vodafone" id="vodafone" /> VODAFONE<br />
 						<input type="radio" name="operatore" value="Windtre" id="windtre" /> WIND-TRE<br />
-						<input type="radio" name="operatore" value="Altro1" id="altro1" /> ALTRO: <input type="text" name="altroOperatore" />
+						<input type="radio" name="operatore" value="altro" id="altro" /> ALTRO: <input type="text" name="altroOperatore" disabled />
 					</td>
 				</tr>
 				<tr>
@@ -99,7 +99,6 @@
 					<input type="radio" name="marca" value="Google" id="google" /> GOOGLE<br />
 					<input type="radio" name="marca" value="Xiaomi" id="xiaomi" /> XIAOMI<br />
 					<input type="radio" name="marca" value="Oppo" id="oppo" /> OPPO<br />
-					<input type="radio" name="marca" value="Altro2" id="altro2" /> ALTRO: <input type="text" name="altraMarcaText" />
 				</td>
 				</tr>
 				<tr>
@@ -183,20 +182,38 @@
 		const inputCF = document.getElementById("codiceFiscale");
 		inputCF.maxLength = 16;
 		
+		let operator = false;
+		let recupero = "";
+		let val;
 		
 		const tim = document.getElementById("tim");
 		const vodafone = document.getElementById("vodafone");
 		const windtre = document.getElementById("windtre");
-		const altroOperat = document.getElementById("altro1");
-
-		[tim, vodafone, windtre, altroOperat].forEach(function(gestore) {
-		    gestore.addEventListener("click", function() {
-		        if (altro1.checked) {
-		            document.modulo1.altroOperatore.focus();
-		        } else {
-		            document.modulo1.altroOperatore.value = "";
-		        }
-		    });
+		const altro = document.getElementById("altro");
+		
+		[tim, vodafone, windtre, altro].forEach(function(gestore) {
+			gestore.addEventListener("click", scelta);
+			function scelta() { 
+				operator = true;
+			
+				for (i = 0; i < document.modulo1.operatore.length; i++) {
+					
+					if (document.modulo1.operatore[i].checked == true) {
+						val = document.modulo1.operatore[i].value;
+						
+						if (val == "altro") {
+							document.modulo1.altroOperatore.disabled = false;
+							document.modulo1.altroOperatore.value = recupero;
+							document.modulo1.altroOperatore.focus();
+						} else {
+							recupero = document.modulo1.altroOperatore.value;
+							document.modulo1.altroOperatore.value = "";
+							document.modulo1.altroOperatore.disabled = true;
+						}
+						
+					}
+				}
+			}
 		});
 
 		const apple = document.getElementById("apple");
@@ -204,17 +221,6 @@
 		const google = document.getElementById("google");
 		const xiaomi = document.getElementById("xiaomi");
 		const oppo = document.getElementById("oppo");
-		const altroBrand = document.getElementById("altro2");
-
-		[apple, samsung, google, xiaomi, oppo, altro2].forEach(function(gestore) {
-		    gestore.addEventListener("click", function() {
-		        if (altro2.checked) {
-		            document.modulo1.altraMarcaText.focus();
-		        } else {
-		            document.modulo1.altraMarcaText.value = "";
-		        }
-		    });
-		});
 		
 		const form1 = document.getElementById("form");
 		const divRisultato = document.getElementById("risultato");
@@ -226,22 +232,17 @@
 			document.modulo2.due.value = document.modulo1.cognome.value;
 			document.modulo2.tre.value = document.modulo1.codiceFiscale.value;
 			document.modulo2.quattro.value = document.modulo1.città.value;
+			document.modulo2.sette.value = document.modulo1.marca.value;
 			document.modulo2.otto.value = document.modulo1.modello.value;
 			document.modulo2.nove.value = document.modulo1.problema.value;
 			
 			// Gestione operatore: se è selezionato "altro", faccio inserire il testo scritto accanto
-			let operator = document.modulo1.operatore.value;
-			if (altroOperat.checked) {
-				operator = document.modulo1.altroOperatore.value;
+			let operat = document.modulo1.operatore.value;
+			if (altro.checked) {
+				operat = document.modulo1.altroOperatore.value;
 			}
-			document.modulo2.cinque.value = operator;
+			document.modulo2.cinque.value = operat;
 			
-			// Gestione marca: se è selezionato "altro", faccio inserire il testo scritto accanto
-			let brand = document.modulo1.marca.value;
-			if (altroBrand.checked) {
-				brand = document.modulo1.altraMarcaText.value;
-			}
-			document.modulo2.sette.value = brand;
 			
 			// se altrotel è vuoto, faccio reinserire "numero di telefono dispositivo"
 			const numDispositivo = document.modulo1.tel.value;
@@ -262,6 +263,7 @@
 		
 		document.getElementById("tornaform").addEventListener("click", function() {
 			form1.reset();
+			document.modulo1.altroOperatore.disabled = true;
 			divRisultato.hidden = true;
 			form1.hidden = false;
 		});
