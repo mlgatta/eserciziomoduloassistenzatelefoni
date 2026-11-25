@@ -81,10 +81,10 @@
 				<tr>
 					<td class="sx">Gestore telefonico</td>
 					<td class="dx">
-						<input type="radio" name="operatore" value="tim" id="tim" /> TIM<br />
-						<input type="radio" name="operatore" value="vodafone" id="vodafone" /> VODAFONE<br />
-						<input type="radio" name="operatore" value="windtre" id="windtre" /> WIND-TRE<br />
-						<input type="radio" name="operatore" value="altro" id="altro" /> ALTRO: <input type="text" name="altroOperatore" />
+						<input type="radio" name="operatore" value="Tim" id="tim" /> TIM<br />
+						<input type="radio" name="operatore" value="Vodafone" id="vodafone" /> VODAFONE<br />
+						<input type="radio" name="operatore" value="Windtre" id="windtre" /> WIND-TRE<br />
+						<input type="radio" name="operatore" value="Altro1" id="altro1" /> ALTRO: <input type="text" name="altroOperatore" />
 					</td>
 				</tr>
 				<tr>
@@ -92,8 +92,15 @@
 					<td class="dx"><input class="casella" type="text" name="tel" id="tel" /></td>
 				</tr>
 				<tr>
-					<td class="sx">Marca dispositivo</td>
-					<td class="dx"><input class="casella" type="text" name="marca" id="marca" /></td>
+				<td class="sx">Marca dispositivo</td>
+				<td class="dx">
+					<input type="radio" name="marca" value="Apple" id="apple" /> APPLE<br />
+					<input type="radio" name="marca" value="Samsung" id="samsung" /> SAMSUNG<br />
+					<input type="radio" name="marca" value="Google" id="google" /> GOOGLE<br />
+					<input type="radio" name="marca" value="Xiaomi" id="xiaomi" /> XIAOMI<br />
+					<input type="radio" name="marca" value="Oppo" id="oppo" /> OPPO<br />
+					<input type="radio" name="marca" value="Altro2" id="altro2" /> ALTRO: <input type="text" name="altraMarcaText" />
+				</td>
 				</tr>
 				<tr>
 					<td class="sx">Modello dispositivo</td>
@@ -173,27 +180,68 @@
 	
 	<script>
 		
+		const inputCF = document.getElementById("codiceFiscale");
+		inputCF.maxLength = 16;
+		
+		
+		const tim = document.getElementById("tim");
+		const vodafone = document.getElementById("vodafone");
+		const windtre = document.getElementById("windtre");
+		const altroOperat = document.getElementById("altro1");
+
+		[tim, vodafone, windtre, altroOperat].forEach(function(gestore) {
+		    gestore.addEventListener("click", function() {
+		        if (altro1.checked) {
+		            document.modulo1.altroOperatore.focus();
+		        } else {
+		            document.modulo1.altroOperatore.value = "";
+		        }
+		    });
+		});
+
+		const apple = document.getElementById("apple");
+		const samsung = document.getElementById("samsung");
+		const google = document.getElementById("google");
+		const xiaomi = document.getElementById("xiaomi");
+		const oppo = document.getElementById("oppo");
+		const altroBrand = document.getElementById("altro2");
+
+		[apple, samsung, google, xiaomi, oppo, altro2].forEach(function(gestore) {
+		    gestore.addEventListener("click", function() {
+		        if (altro2.checked) {
+		            document.modulo1.altraMarcaText.focus();
+		        } else {
+		            document.modulo1.altraMarcaText.value = "";
+		        }
+		    });
+		});
+		
 		const form1 = document.getElementById("form");
 		const divRisultato = document.getElementById("risultato");
 		
-		document.getElementById("stamparicevuta").addEventListener("click", function() { // imposto gli eventi che succedono al tasto click sul pulsante "stampa ricevuta"
+		document.getElementById("stamparicevuta").addEventListener("click", function() { // imposto gli eventi che succedono al click sul pulsante "stampa ricevuta"
 			
 			// assegno e stampo i dati inseriti nel form, nella ricevuta di consegna
 			document.modulo2.uno.value = document.modulo1.nome.value;
 			document.modulo2.due.value = document.modulo1.cognome.value;
 			document.modulo2.tre.value = document.modulo1.codiceFiscale.value;
 			document.modulo2.quattro.value = document.modulo1.città.value;
-			document.modulo2.sette.value = document.modulo1.marca.value;
 			document.modulo2.otto.value = document.modulo1.modello.value;
 			document.modulo2.nove.value = document.modulo1.problema.value;
 			
 			// Gestione operatore: se è selezionato "altro", faccio inserire il testo scritto accanto
 			let operator = document.modulo1.operatore.value;
-			if (operator === "altro") {
+			if (altroOperat.checked) {
 				operator = document.modulo1.altroOperatore.value;
 			}
+			document.modulo2.cinque.value = operator;
 			
-			document.modulo2.cinque.value = operator
+			// Gestione marca: se è selezionato "altro", faccio inserire il testo scritto accanto
+			let brand = document.modulo1.marca.value;
+			if (altroBrand.checked) {
+				brand = document.modulo1.altraMarcaText.value;
+			}
+			document.modulo2.sette.value = brand;
 			
 			// se altrotel è vuoto, faccio reinserire "numero di telefono dispositivo"
 			const numDispositivo = document.modulo1.tel.value;
